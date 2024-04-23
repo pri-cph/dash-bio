@@ -918,12 +918,16 @@ Methods:
         # pylint: disable=W0212
         # columns
         if self._cluster in ["col", "all"]:
+            if self._color_list is None:
+                colorscale = None
+            else:
+                colorscale = self._color_list['col']
             cols_dendro = ff._dendrogram._Dendrogram(
                 np.transpose(self._data),
                 orientation="bottom",
                 labels=self._column_ids,
                 # TODO: How does colormap work?
-                # colorscale=self._color_map["cols"],
+                colorscale=colorscale,
                 distfun=lambda X: self._dist_fun(X, metric=self._col_dist),
                 linkagefun=lambda d: self._link_fun(
                     d, optimal_ordering=self._optimal_leaf_order
@@ -935,12 +939,16 @@ Methods:
 
         # rows
         if self._cluster in ["row", "all"]:
+            if self._color_list is None:
+                colorscale = None
+            else:
+                colorscale = self._color_list['row']
             rows_dendro = ff._dendrogram._Dendrogram(
                 self._data,
                 orientation="right",
                 labels=self._row_ids,
                 # TODO: How does colormap work?
-                # colorscale=self._color_map,
+                colorscale=colorscale,
                 distfun=lambda X: self._dist_fun(X, metric=self._row_dist),
                 linkagefun=lambda d: self._link_fun(
                     d, optimal_ordering=self._optimal_leaf_order
